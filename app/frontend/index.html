@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Canary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="top">
+    <h1>Canary</h1>
+    <p class="subtitle">
+      A simple notes application used for resilience and chaos testing.
+    </p>
+  </header>
+
+  <!-- Composer -->
+  <section class="composer" id="composer">
+    <input id="newTitle" placeholder="Title" />
+    <textarea id="newContent" placeholder="Take a note…"></textarea>
+    <div class="composer-actions">
+      <button id="addNote">Add</button>
+    </div>
+  </section>
+
+  <!-- Notes -->
+  <main id="notes"></main>
+
+  <!-- Floating Add Button -->
+  <button id="fab" class="fab">+</button>
+
+  <script src="app.js"></script>
+</body>
+</html>

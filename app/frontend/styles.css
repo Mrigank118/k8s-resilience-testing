@@ -1,0 +1,192 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f8f9fa;
+  color: #202124;
+}
+
+/* Header */
+
+.top {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 500;
+}
+
+.subtitle {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: #5f6368;
+}
+
+/* Composer */
+
+.composer {
+  background: #fff;
+  max-width: 600px;
+  margin: 1.5rem auto;
+  padding: 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+.composer:focus-within {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+
+.composer input,
+.composer textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  background: transparent;
+}
+
+.composer textarea {
+  resize: none;
+  min-height: 60px;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.composer button {
+  border: none;
+  background: transparent;
+  color: #1a73e8;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Notes Grid */
+
+main {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+/* Note Card */
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0.8rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: 
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #3c4043;
+  white-space: pre-wrap;
+}
+
+/* BLACK HOVER EFFECT */
+
+.card:hover {
+  background: #000;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.card:hover p {
+  color: rgba(255,255,255,0.85);
+}
+
+/* Delete Button */
+
+.card .delete {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 1.1rem;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.card .delete:hover {
+  opacity: 1;
+}
+
+/* Editing Mode */
+
+.card.editing {
+  background: #fff !important;
+  color: #000 !important;
+  cursor: default;
+}
+
+.card.editing input,
+.card.editing textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.inline-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.inline-actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #1a73e8;
+}
+
+/* Floating Add Button */
+
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #1a73e8;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+}
