@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: mrigankwastaken/canary-resilience-backend:1.0
+          image: mrigankwastaken/canary-resilience-backend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
