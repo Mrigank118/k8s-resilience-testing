@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: canary-frontend
+  template:
+    metadata:
+      labels:
+        app: canary-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: mrigankwastaken/canary-resilience-frontend:1.0
+          ports:
+            - containerPort: 80
+          env:
+            - name: API_BASE_URL
+              value: "http://canary-backend:3000"
