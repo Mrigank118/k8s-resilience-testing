@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: canary-backend
+  template:
+    metadata:
+      labels:
+        app: canary-backend
+    spec:
+      containers:
+        - name: backend
+          image: mrigankwastaken/canary-resilience-backend:1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: APP_PASSWORD
+              value: "canary123"
+            - name: DB_DIR
+              value: "/app/data"
+          volumeMounts:
+            - name: sqlite-storage
+              mountPath: /app/data
+      volumes:
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: canary-sqlite-pvc
