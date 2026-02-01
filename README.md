@@ -20,8 +20,8 @@ The application consists of a frontend UI and a backend API with SQLite persiste
 
 The application uses prebuilt images:
 
-* Backend: `mrigankwastaken/canary-resilience-backend:1.0`
-* Frontend: `mrigankwastaken/canary-resilience-frontend:1.0`
+* Backend: `mrigankwastaken/canary-resilience-backend:latest`
+* Frontend: `mrigankwastaken/canary-resilience-frontend:latest`
 
 Images are pulled directly by Kubernetes.
 Local builds are not required to run the app.
