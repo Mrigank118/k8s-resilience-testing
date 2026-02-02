@@ -1,4 +1,4 @@
-const API = "http://localhost:3000";
+const API = "http://canary-backend:3000";
 const PASSWORD = "canary123";
 
 const notesEl = document.getElementById("notes");
