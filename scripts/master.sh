@@ -91,9 +91,6 @@ kubectl wait --for=condition=ready pod \
 kubectl get pods -n litmus
 ok "Litmus ready"
 
-log "Opening ChaosCenter"
-minikube service litmusportal-frontend-service -n litmus || true
-
 # =========================
 # DEPLOY APPLICATION
 # =========================
