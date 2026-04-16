@@ -156,7 +156,7 @@ echo "Grafana Username: admin"
 echo "Grafana Password: $PASSWORD"
 
 log "Opening Grafana"
-minikube service kube-prometheus-grafana -n monitoring || true
+minikube service kube-prometheus-grafana -n monitoring & || true
 
 # =========================
 # FINAL STATUS
