@@ -175,4 +175,4 @@ echo ""
 echo "Litmus:"
 kubectl get pods -n litmus
 
-ok "SETUP COMPLETE 🚀"
+ok "SETUP COMPLETE"
