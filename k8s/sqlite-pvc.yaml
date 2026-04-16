@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: canary-sqlite-pvc
+  namespace: notes
 spec:
   accessModes:
     - ReadWriteOnce

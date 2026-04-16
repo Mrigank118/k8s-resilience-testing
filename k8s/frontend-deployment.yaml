@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: canary-frontend
+  namespace: notes
 spec:
   replicas: 1
   selector:
@@ -15,9 +16,16 @@ spec:
       containers:
         - name: frontend
           image: mrigankwastaken/canary-resilience-frontend:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
           env:
             - name: API_BASE_URL
               value: "http://canary-backend:3000"

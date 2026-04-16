@@ -1,0 +1,12 @@
+auth:
+  enabled: true
+  rootPassword: "1234"
+
+architecture: replicaset
+replicaCount: 3
+
+persistence:
+  enabled: true
+
+volumePermissions:
+  enabled: true
