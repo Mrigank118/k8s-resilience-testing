@@ -1,111 +1,174 @@
 
 # Canary-Resilience
 
-Canary-Resilience is a minimal notes application deployed on Kubernetes.
-It is used as a **system under test** for studying Kubernetes behavior, persistence, and resilience under failures.
+Canary-Resilience is a Kubernetes-based microservices application designed to study and evaluate system resilience under controlled failure conditions. The project demonstrates how a distributed system behaves under stress and how resilience mechanisms such as self-healing, autoscaling, and fault isolation improve system reliability.
 
-The application consists of a frontend UI and a backend API with SQLite persistence.
 
----
+# Key Objectives
 
-## Prerequisites
+* Analyze system behavior under failure
+* Validate resilience properties
+* Demonstrate fault injection using chaos engineering
+* Monitor system performance using real-time metrics
 
+
+# Technologies Used
+
+* Kubernetes
 * Docker
-* kubectl
-* Minikube (or any Kubernetes cluster)
+* Prometheus
+* Grafana
+* LitmusChaos
+* Helm
 
----
+# Setup Instructions
 
-## Docker Images
+## 1. Clone Repository
 
-The application uses prebuilt images:
-
-* Backend: `mrigankwastaken/canary-resilience-backend:latest`
-* Frontend: `mrigankwastaken/canary-resilience-frontend:latest`
-
-Images are pulled directly by Kubernetes.
-Local builds are not required to run the app.
-
----
-
-## Running the Application (Minikube)
-
-### 1. Start Minikube
-
-```
-minikube start --driver=docker
+```bash id="ns9s16"
+git clone <repository-url>
+cd k8s-resilience-testing/scripts
 ```
 
-Verify cluster access:
+## 2. Run Setup Script
 
-```
-kubectl get nodes
-```
-
----
-
-### 2. Deploy Kubernetes Resources
-
-Apply manifests in the following order:
-
-```
-kubectl apply -f k8s/sqlite-pvc.yaml
-kubectl apply -f k8s/backend-deployment.yaml
-kubectl apply -f k8s/backend-service.yaml
-kubectl apply -f k8s/frontend-deployment.yaml
-kubectl apply -f k8s/frontend-service.yaml
+```bash id="k3wgb2"
+chmod +x master.sh
+./setup.sh
 ```
 
----
+# Accessing Services
 
-### 3. Verify Deployment
+## Frontend
 
-```
-kubectl get pods
-kubectl get svc
-kubectl get pvc
+```bash id="d60c9x"
+minikube service canary-frontend -n notes
 ```
 
-All pods should be in `Running` state and the PVC should be `Bound`.
+## Grafana
 
----
-
-### 4. Access the Application
-
-Expose the frontend using Minikube:
-
-```
-minikube service canary-frontend
+```bash id="0c39z7"
+kubectl port-forward -n monitoring svc/kube-prometheus-grafana 3000:80
 ```
 
-This command will open the application in the browser or print the access URL.
+Open:
 
----
-
-## Backend Authentication
-
-All backend API requests require a password header:
-
-```
-X-APP-PASSWORD: canary123
+```id="q4j6me"
+http://localhost:3000
 ```
 
-The password is injected via environment variables in Kubernetes.
+## ChaosCenter (Litmus)
 
----
+```bash id="n4q3mk"
+minikube service litmusportal-frontend-service -n litmus
+```
 
-## Persistence
+# Persistence
 
-* Notes are stored in SQLite
-* SQLite data is mounted on a PersistentVolumeClaim
-* Data survives pod restarts and crashes
+* SQLite database is used
+* Data is stored via PersistentVolumeClaim
+* Data persists across pod restarts
 
----
 
-## Notes
+# Chaos Engineering (LitmusChaos)
 
-* The application logic is intentionally minimal
-* The app should not be modified during resilience testing
-* Kubernetes behavior is the primary focus, not application features
+Faults are injected using LitmusChaos to simulate real-world failures:
 
----
+* Pod Deletion
+* CPU Stress
+* Network Latency
+
+These experiments help evaluate how the system behaves under failure conditions.
+
+# Monitoring and Observability
+
+Prometheus collects system and application metrics. Grafana visualizes these metrics through dashboards.
+
+# Key Metrics and Graphs
+
+The following graphs are used to analyze system behavior:
+
+## 1. CPU Usage
+
+* Metric: `container_cpu_usage_seconds_total`
+* Shows CPU consumption per pod
+* Used to observe CPU stress and HPA scaling
+
+
+## 2. Memory Usage
+
+* Metric: `container_memory_usage_bytes`
+* Shows RAM usage
+* Ensures system stability under load
+
+
+## 3. Pod Count
+
+* Metric: `kube_deployment_status_replicas`
+* Shows number of running pods
+* Used to observe self-healing and scaling
+
+
+## 4. Network Traffic
+
+* Metrics:
+
+  * `container_network_receive_bytes_total`
+  * `container_network_transmit_bytes_total`
+* Shows communication between services
+* Used during latency experiments
+
+
+## 5. Request Rate
+
+* Metric: `http_requests_total`
+* Shows number of requests handled
+* Used to analyze throughput
+
+
+## 6. Error Rate
+
+* Metric: `http_requests_total{status=~"5.."}`
+* Shows failed requests
+* Used to validate circuit breaker behavior
+
+
+## 7. Latency
+
+* Metric: `http_request_duration_seconds`
+* Shows response time
+* Used to observe performance degradation and fail-fast behavior
+
+
+# Resilience Experiments
+
+
+## 1. Pod Deletion
+
+* Fault: Pod termination
+* Observation: Pods recreated automatically
+* Property: Self-healing
+
+## 2. CPU Stress
+
+* Fault: High CPU load
+* Observation: HPA scales pods
+* Property: Scalability
+
+## 3. Network Latency
+
+* Fault: Artificial delay in communication
+* Observation: System slows but continues functioning
+* Property: Fault tolerance
+
+## 4. Circuit Breaking
+
+* Fault: Slow/unresponsive backend
+* Observation: Requests fail fast
+* Property: Failure isolation
+
+# Conclusion
+
+This project demonstrates how a Kubernetes-based microservices system behaves under real-world failure scenarios. By integrating chaos engineering and monitoring tools, it validates system resilience through recovery, adaptation, and fault containment.
+
+
