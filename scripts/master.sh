@@ -78,15 +78,15 @@ kubectl apply -f https://raw.githubusercontent.com/litmuschaos/litmus/master/mkd
 log "Waiting for ChaosCenter (frontend/server/auth)"
 kubectl wait --for=condition=ready pod \
   -l app.kubernetes.io/component=frontend \
-  -n litmus --timeout=180s || true
+  -n litmus --timeout=300s || true
 
 kubectl wait --for=condition=ready pod \
   -l app.kubernetes.io/component=server \
-  -n litmus --timeout=180s || true
+  -n litmus --timeout=300s || true
 
 kubectl wait --for=condition=ready pod \
   -l app.kubernetes.io/component=auth-server \
-  -n litmus --timeout=180s || true
+  -n litmus --timeout=300s || true
 
 kubectl get pods -n litmus
 ok "Litmus ready"
@@ -103,7 +103,7 @@ kubectl apply -f k8s/frontend-deployment.yaml
 kubectl apply -f k8s/frontend-service.yaml
 
 log "Waiting for app pods"
-kubectl wait --for=condition=ready pod --all -n notes --timeout=180s
+kubectl wait --for=condition=ready pod --all -n notes --timeout=300s
 
 kubectl get pods -n notes
 ok "Application deployed"
@@ -117,7 +117,7 @@ minikube service canary-frontend -n notes || true
 log "Enabling metrics-server"
 minikube addons enable metrics-server
 
-kubectl wait --for=condition=available deployment metrics-server -n kube-system --timeout=120s || true
+kubectl wait --for=condition=available deployment metrics-server -n kube-system --timeout=300s || true
 kubectl top pods -n notes || log "Metrics warming up"
 
 # =========================
@@ -135,11 +135,11 @@ log "Waiting for Grafana + Prometheus (core only)"
 
 kubectl wait --for=condition=ready pod \
   -l app.kubernetes.io/name=grafana \
-  -n monitoring --timeout=180s || true
+  -n monitoring --timeout=300s || true
 
 kubectl wait --for=condition=ready pod \
   -l app.kubernetes.io/name=prometheus \
-  -n monitoring --timeout=180s || true
+  -n monitoring --timeout=300s || true
 
 kubectl get pods -n monitoring
 ok "Monitoring ready"
