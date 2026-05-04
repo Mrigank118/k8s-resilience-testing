@@ -11,7 +11,7 @@ spec:
       abort:
         httpStatus: 500
         percentage:
-          value: 50
+          value: 60
     route:
     - destination:
         host: canary-backend
